@@ -1,12 +1,15 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const PORT = process.env.PORT || 3000;
 
-// app.use(express.json())
+const logger = require('./middleware/logger');
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-});
+app.use(logger);
+app.use(express.json());
+app.use(express.static('public'));
+
+const mainRouter = require('./routes');
+app.use('/', mainRouter);
 
 // app.post('/', (req, res) => {
 //   res.send('Post request success')
